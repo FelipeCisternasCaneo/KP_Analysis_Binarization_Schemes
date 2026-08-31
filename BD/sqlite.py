@@ -1,8 +1,6 @@
 import sqlite3
 import os
-from Problem.SCP.problem import obtenerOptimo
 from Problem.KP.problem import obtenerOptimoKP
-from Problem.USCP.problem import obtenerOptimoUSCP
 
 class BD:
     def __init__(self):
@@ -230,42 +228,6 @@ class BD:
 
             self.getCursor().execute(f'''  INSERT INTO instancias (tipo_problema, nombre, optimo, param) VALUES(?, ?, ?, ?) ''', (tipoProblema, instancia, optimo, param))
         
-        self.commit()
-        self.desconectar()
-        
-    def insertarInstanciasSCP(self):
-        self.conectar()
-        
-        data = os.listdir('./Problem/SCP/Instances/')
-        
-        for d in data:
-            tipoProblema = 'SCP'
-            nombre = d.split(".")[0]
-            optimo = obtenerOptimo(nombre)
-            nombre = f'{nombre[3:]}'
-            param = ''
-            
-            self.getCursor().execute(f'''  INSERT INTO instancias (tipo_problema, nombre, optimo, param) VALUES(?, ?, ?, ?) ''', (tipoProblema, nombre, optimo, param))
-            
-        self.commit()
-        self.desconectar()
-        
-    def insertarInstanciasUSCP(self):
-        self.conectar()
-        
-        data = os.listdir('./Problem/USCP/Instances/')        
-        for d in data:
-            
-            tipoProblema = 'USCP'
-            nombre = d.split(".")[0]
-            optimo = obtenerOptimoUSCP(nombre)
-            
-            nombre = f'u{nombre[4:]}'
-            
-            param = ''
-            
-            self.getCursor().execute(f'''  INSERT INTO instancias (tipo_problema, nombre, optimo, param) VALUES(?, ?, ?, ?) ''', (tipoProblema, nombre, optimo, param))
-            
         self.commit()
         self.desconectar()
 
@@ -575,6 +537,22 @@ class BD:
         
         return data
     
+    def obtenerBinarizacionesbyMH(self, mh):
+        self.conectar()
+        cursor = self.getCursor()
+        query = '''
+            SELECT DISTINCT e.binarizacion  
+            from experimentos e 
+            where e.mh like ?
+        '''
+
+        cursor.execute(query, (f'%{mh}%',))
+        data = cursor.fetchall()
+
+        self.desconectar()
+        
+        return data
+    
     def obtenerResultadosMAE(self, instancia, mh, mapa):
         self.conectar()
         cursor = self.getCursor()
@@ -642,9 +620,9 @@ class BD:
             inner join instancias i on e.fk_id_instancia = i.id_instancia
             where i.nombre = ? AND 
             e.MH = ? 
-            AND e.experimento = ? 
+            AND e.binarizacion = ? 
             AND  e.estado = 'terminado'
-            GROUP BY  e.experimento, i.tipo_problema , i.nombre, e.MH
+            GROUP BY  e.binarizacion, i.tipo_problema , i.nombre, e.MH
         '''
 
         cursor.execute(query, (instancia, mh, experimento,))

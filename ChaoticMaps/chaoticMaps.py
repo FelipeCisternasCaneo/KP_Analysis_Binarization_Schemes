@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import os
 
 def chebyshevMap(initial,iteration):
     mapValues = np.zeros(iteration)
@@ -291,16 +292,86 @@ def graficarcircleMap(iteration):
     plt.close()
 
 
+def obtener_ruta_resultados():
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), "Resultados", "ChaoticMaps")
+
+
+def graficarHistogramaMapa(funcion, initial_value, iteration, title, filename):
+    output_dir = obtener_ruta_resultados()
+    os.makedirs(output_dir, exist_ok=True)
+    values = funcion(initial_value, iteration)
+
+    plt.figure(figsize=(8, 5))
+    plt.hist(values, bins=30, color="steelblue", edgecolor="black")
+    plt.xlabel(r"$c_k$")
+    plt.ylabel("frequency")
+    plt.xlim(0, 1)
+    plt.savefig(os.path.join(output_dir, f"{filename}.pdf"))
+    plt.close()
+
+
+def graficarHistogramaLogisticMap(iteration=1000):
+    graficarHistogramaMapa(logisticMap, 0.7, iteration, "Histograma Logistic Map", "histograma logistic Map")
+
+
+def graficarHistogramaPiecewiseMap(iteration=1000):
+    graficarHistogramaMapa(piecewiseMap, 0.7, iteration, "Histograma Piecewise Map", "histograma piecewise Map")
+
+
+def graficarHistogramaSineMap(iteration=1000):
+    graficarHistogramaMapa(sineMap, 0.7, iteration, "Histograma Sine Map", "histograma sine Map")
+
+
+def graficarHistogramaSingerMap(iteration=1000):
+    graficarHistogramaMapa(singerMap, 0.7, iteration, "Histograma Singer Map", "histograma singer Map")
+
+
+def graficarHistogramaSinusoidalMap(iteration=1000):
+    graficarHistogramaMapa(sinusoidalMap, 0.7, iteration, "Histograma Sinusoidal Map", "histograma sinusoidal Map")
+
+
+def graficarHistogramaTentMap(iteration=1000):
+    graficarHistogramaMapa(tentMap, 0.6, iteration, "Histograma Tent Map", "histograma tent Map")
+
+
+def graficarHistogramaCircleMap(iteration=1000):
+    graficarHistogramaMapa(circleMap, 0.7, iteration, "Histograma Circle Map", "histograma circle Map")
+
+
+def graficarHistogramaDistribucionUniforme(iteration=1000):
+    output_dir = obtener_ruta_resultados()
+    os.makedirs(output_dir, exist_ok=True)
+    values = np.random.uniform(0.0, 1.0, iteration)
+
+    plt.figure(figsize=(8, 5))
+    plt.hist(values, bins=30, color="lightgreen", edgecolor="black")
+    plt.title("Histograma Distribución Uniforme")
+    plt.xlabel(r"$c_k$")
+    plt.ylabel("frequency")
+    plt.xlim(min(values), max(values))
+    plt.savefig(os.path.join(output_dir, "histograma distribucion uniforme.pdf"))
+    plt.close()
 
 
 # graficar(100)
 
-iteraciones = 100
+iteraciones = 500
 
-# graficarLogisticMap(iteraciones)
-# graficarcircleMap(iteraciones)
-# graficarpiecewiseMap(iteraciones)
-# graficarsineMap(iteraciones)
-# graficarsingerMap(iteraciones)
-# graficarsinusoidalMap(iteraciones)
-# graficartentMap(iteraciones)
+graficarLogisticMap(iteraciones)
+graficarcircleMap(iteraciones)
+graficarpiecewiseMap(iteraciones)
+graficarsineMap(iteraciones)
+graficarsingerMap(iteraciones)
+graficarsinusoidalMap(iteraciones)
+graficartentMap(iteraciones)
+
+iteraciones = 100000
+
+graficarHistogramaLogisticMap(iteraciones)
+graficarHistogramaPiecewiseMap(iteraciones)
+graficarHistogramaSineMap(iteraciones)
+graficarHistogramaSingerMap(iteraciones)
+graficarHistogramaSinusoidalMap(iteraciones)
+graficarHistogramaTentMap(iteraciones)
+graficarHistogramaCircleMap(iteraciones)
+graficarHistogramaDistribucionUniforme(iteraciones)

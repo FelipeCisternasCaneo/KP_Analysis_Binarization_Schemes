@@ -3,8 +3,7 @@ import os
 import time
 
 from Problem.KP.problem import KP
-from Metaheuristics.imports import iterarGWO,iterarSCA,iterarWOA,iterarPSA,iterarMFO,iterarGA
-from Metaheuristics.imports import iterarPSO,iterarFOX,iterarEOO,iterarRSA,iterarGOA,iterarHBA,iterarTDO,iterarSHO
+from Metaheuristics.imports import iterarGWO, iterarPSO
 from Diversity.imports import diversidadHussain,porcentajesXLPXPT
 from Discretization import discretization as b
 from Util.util import convert_into_binary
@@ -94,50 +93,16 @@ def solverKP(id, mh, maxIter, pop, instancia, DS, param):
     for iter in range(1, maxIter + 1):
         # obtengo mi tiempo inicial
         timerStart = time.time()
-        
-        if mh == "MFO":
-            for i in range(bestSolutions.__len__()):
-                bestFitnessArray[i] = instance.fitness(bestSolutions[i])
-        
-        # perturbo la poblacion con la metaheuristica, pueden usar SCA y GWO
-        # en las funciones internas tenemos los otros dos for, for de individuos y for de dimensiones
-        # print(population)
-        if mh == "SCA":
-            population = iterarSCA(maxIter, iter, instance.getItems(), population.tolist(), best.tolist())
+
         if mh == "GWO":
             population = iterarGWO(maxIter, iter, instance.getItems(), population.tolist(), fitness.tolist(), 'MIN')
-        if mh == 'WOA':
-            population = iterarWOA(maxIter, iter, instance.getItems(), population.tolist(), best.tolist())
-        if mh == 'PSA':
-            population = iterarPSA(maxIter, iter, instance.getItems(), population.tolist(), best.tolist())
-        if mh == "MFO":
-            population, bestSolutions = iterarMFO(maxIter, iter, instance.getItems(), len(population), population, bestSolutions, fitness, bestFitnessArray )
-        if mh == "GA":
-            cross = float(param.split(",")[0])
-            muta = float(param.split(",")[1])
-            population = iterarGA(population, fitness, cross, muta, 'MAX')
         if mh == 'PSO':
             population, velocities = iterarPSO(maxIter, iter, instance.getItems(), population, velocities, p_best_positions, best)
-        if mh == 'FOX':
-            population = iterarFOX(maxIter, iter, instance.getItems(), population.tolist(), best.tolist())
-        if mh == 'EOO':
-            population = iterarEOO(maxIter, iter, population.tolist(), best.tolist())
-        if mh == 'RSA':
-            population = iterarRSA(maxIter, iter, instance.getItems(), population.tolist(), best.tolist(),0,1)
-        if mh == 'GOA':
-            population = iterarGOA(maxIter, iter, instance.getItems(), population, best.tolist(), fitness.tolist(),fo, 'MAX')
-        if mh == 'HBA':
-            population = iterarHBA(maxIter, iter, instance.getItems(), population.tolist(), best.tolist(), fitness.tolist(),fo, 'MAX')
-        if mh == 'TDO':
-            population = iterarTDO(maxIter, iter, instance.getItems(), population.tolist(), fitness.tolist(),fo, 'MAX')
-        if mh == 'SHO':
-            population = iterarSHO(maxIter, iter, instance.getItems(), population.tolist(), best.tolist(),fo, 'MAX')
         
         # Binarizo, calculo de factibilidad de cada individuo y calculo del fitness
         for i in range(population.__len__()):
 
-            if mh != "GA":
-                population[i] = b.aplicarBinarizacion(population[i].tolist(), DS[0], DS[1], best, matrixBin[i].tolist(), iter, pop, maxIter, i, chaotic_map)
+            population[i] = b.aplicarBinarizacion(population[i].tolist(), DS[0], DS[1], best, matrixBin[i].tolist(), iter, pop, maxIter, i, chaotic_map)
 
             flag = instance.factibilityTest(population[i])
             # print(aux)

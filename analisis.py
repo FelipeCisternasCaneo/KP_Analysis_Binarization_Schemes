@@ -1,8 +1,4 @@
 from Util.util import cargar_configuracion
-
-import analisisBEN
-import analisisSCP
-import analisisUSCP
 import analisisKP
 
 import time
@@ -19,30 +15,6 @@ def main():
     tiempos = {}
 
     tiempo_total_inicio = time.time()
-
-    if config.get("ben", False):
-        print("[INFO] Ejecutando análisis BEN...")
-        print("-" * 50)
-        t0 = time.time()
-        analisisBEN.analizar_instancias()
-        t1 = time.time()
-        tiempos["BEN"] = round(t1 - t0, 2)
-    
-    if config.get("scp", False):
-        print("[INFO] Ejecutando análisis SCP...")
-        print("-" * 50)
-        t0 = time.time()
-        analisisSCP.analizar_instancias()
-        t1 = time.time()
-        tiempos["SCP"] = round(t1 - t0, 2)
-
-    if config.get("uscp", False):
-        print("[INFO] Ejecutando análisis USCP...")
-        print("-" * 50)
-        t0 = time.time()
-        analisisUSCP.analizar_instancias()
-        t1 = time.time()
-        tiempos["USCP"] = round(t1 - t0, 2)
         
     if config.get("kp", False):
         print("[INFO] Ejecutando análisis KP...")
