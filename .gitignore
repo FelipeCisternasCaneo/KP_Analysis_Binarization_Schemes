@@ -1,3 +1,16 @@
 env
 __pycache__/
 *.pyc
+
+# Base de resultados: ~800 MB, no debe entrar al historial de git
+BD/*.db
+
+# Salidas regenerables con: python GenerarTablasKP.py
+Resultados/Analisis/
+Resultados/Transitorio/
+
+# Auxiliares de compilacion LaTeX
+*.aux
+*.log
+*.out
+*.synctex.gz
