@@ -1,8 +1,8 @@
 # Ranking de Friedman — PSO y GWO
 
 Posición de cada esquema de binarización dentro de su familia de
-instancias, con el `Rank-Avg` que la sustenta (promedio de los
-rankings en las 7 instancias de la familia, sobre 31 corridas cada una).
+instancias, con el `Rank-Avg` que la sustenta: el promedio de sus
+rankings en las 7 instancias de la familia, sobre 31 corridas cada una.
 
 | Familia de instancias | Prefijo | Instancias |
 |---|---|---|
@@ -14,7 +14,7 @@ rankings en las 7 instancias de la familia, sobre 31 corridas cada una).
 
 |  | **PSO** |  | **PSO** |  | **PSO** |  | **GWO** |  | **GWO** |  | **GWO** |  |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Position | Uncorrelated | Rank-Avg | Weakly correlated | Rank-Avg | Strongly correlated | Rank-Avg | Uncorrelated | Rank-Avg | Weakly correlated | Rank-Avg | Strongly correlated | Rank-Avg |
+| Position | PSO Uncorrelated scheme | PSO Uncorrelated rank | PSO Weakly correlated scheme | PSO Weakly correlated rank | PSO Strongly correlated scheme | PSO Strongly correlated rank | GWO Uncorrelated scheme | GWO Uncorrelated rank | GWO Weakly correlated scheme | GWO Weakly correlated rank | GWO Strongly correlated scheme | GWO Strongly correlated rank |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | TOP 1 | S1-STD | 1.86 | S1-STD | 2.07 | S1-STD | 1.79 | S1-STD | 1.64 | S1-STD | 1.64 | S1-STD | 1.21 |
 | TOP 2 | S2-STD | 2.71 | S2-STD | 2.43 | S2-STD | 2.50 | S2-STD | 2.36 | S2-STD | 2.36 | S2-STD | 1.93 |
